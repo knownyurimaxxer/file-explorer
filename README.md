@@ -60,8 +60,6 @@ it, and `npm run check` to run the type check and the tests. It needs a
 development build (or the APK), not Expo Go, because of the storage
 permission.
 
-`tools/generate_branding.py` redraws the icons and store images.
-
 ## Credits
 
 [Ionicons](https://ionic.io/ionicons) by [@ionic](https://ionic.io/).

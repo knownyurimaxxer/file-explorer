@@ -1,4 +1,4 @@
-# Feed Journal: checks on every push to main, and an installable
+# File Explorer: checks on every push to main, and an installable
 # Android APK (published as a GitHub Release) every time `main` changes.
 #
 # One-time setup for the APK: see "Releases and Obtainium" in the README
@@ -121,7 +121,7 @@ jobs:
                   set -euo pipefail
                   tools=$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -n 1)
                   built=android/app/build/outputs/apk/release/app-release.apk
-                  out="feed-journal-$VERSION.apk"
+                  out="file-explorer-$VERSION.apk"
 
                   echo "$KEYSTORE_B64" | base64 --decode > "$RUNNER_TEMP/release.jks"
 
@@ -148,6 +148,6 @@ jobs:
               run: |
                   gh release create "v$VERSION" "$APK" \
                     --target "$GITHUB_SHA" \
-                    --title "Feed Journal $VERSION" \
+                    --title "File Explorar $VERSION" \
                     --generate-notes \
                     --latest
