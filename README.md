@@ -19,8 +19,11 @@ If you have an issue, just open an [Issue](../../issues)!
   by biggest folders. Tap a folder to jump to it.
 - **Languages.** Settings > Language: "System default" follows the phone (and
   uses English when the phone's language isn't available), or pick one.
-- **Sound and haptics.** Short sounds when you tap things (on by default) and
-  optional vibrations (off by default), where each moment has its own switch.
+- **Hidden files.** Files and folders whose name starts with a dot are kept
+  out of the list and the search. Settings > Files > **Show hidden files**
+  (off by default) brings them back.
+- **Haptics.** Optional vibrations when you tap things (off by default), where
+  each moment has its own switch.
 - **Make it yours.** A few ready-made themes, or choose each color yourself.
   Themes can be shared as text.
 - **Big screens too.** Tablets and landscape get a multi-column list (in
@@ -57,8 +60,7 @@ it, and `npm run check` to run the type check and the tests. It needs a
 development build (or the APK), not Expo Go, because of the storage
 permission.
 
-`tools/generate_branding.py` redraws the icons and store images, and
-`tools/generate_sounds.py` the sound effects.
+`tools/generate_branding.py` redraws the icons and store images.
 
 ## Credits
 

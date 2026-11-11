@@ -16,6 +16,7 @@ import {
 } from "../constants";
 import type { Entry, Place } from "../types";
 import { kindOf, mimeOf } from "../utils/fileTypes";
+import { visibleOnly } from "../utils/hidden";
 import { compareEntries } from "../utils/search";
 import type { WalkItem } from "../utils/walk";
 
@@ -36,9 +37,12 @@ export function listRaw(uri: string, withSizes = false): WalkItem[] {
 	});
 }
 
-/** A folder's entries for the Files tab: folders first, then by name. Throws if it can't be read. */
-export function listFolder(uri: string): Entry[] {
-	return listRaw(uri)
+/**
+ * A folder's entries for the Files tab: folders first, then by name. Hidden
+ * (dotted) names are left out unless `showHidden` is on. Throws if it can't be read.
+ */
+export function listFolder(uri: string, showHidden = false): Entry[] {
+	return visibleOnly(listRaw(uri), showHidden)
 		.map((e): Entry => ({
 			name: e.name,
 			uri: e.uri,

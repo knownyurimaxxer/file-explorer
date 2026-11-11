@@ -1,6 +1,6 @@
 /**
  * Internal database (SQLite). Holds only the app's settings (theme, language,
- * sound and vibration switches): the app never copies or stores your files.
+ * hidden-files and vibration switches): the app never copies or stores your files.
  */
 import * as SQLite from "expo-sqlite";
 

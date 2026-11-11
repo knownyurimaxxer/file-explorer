@@ -42,6 +42,8 @@ type Props = {
 	browser: ReturnType<typeof useBrowser>;
 	/** This tab is the one on screen (only then does it answer the back button). */
 	active: boolean;
+	/** Show files and folders whose name starts with a dot (in the search; the folder list is handled by `browser`). */
+	showHidden: boolean;
 	accessAsked: boolean;
 	onAccessAsked: () => void;
 	onOpenSettings: () => void;
@@ -53,6 +55,7 @@ const MAX_COLUMNS = 3;
 export default function FilesScreen({
 	browser,
 	active,
+	showHidden,
 	accessAsked,
 	onAccessAsked,
 	onOpenSettings,
@@ -71,7 +74,7 @@ export default function FilesScreen({
 	const { uri, root, places, entries, error, canGoUp } = browser;
 	// These two never change, so rows aren't redrawn just because the list state did.
 	const { open: openFolder, up: goUp } = browser;
-	const search = useFileSearch(uri, query);
+	const search = useFileSearch(uri, query, showHidden);
 	const searching = search.active;
 
 	const columns = Math.min(

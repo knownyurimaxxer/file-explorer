@@ -79,9 +79,9 @@ export const en = {
 	"settings.languageHint":
 		"“System default” follows your phone's language, and uses English if your language isn't available.",
 	"settings.languageSystem": "System default",
-	"settings.sound": "Sound",
-	"settings.soundToggle": "Sound effects",
-	"settings.soundHint": "Short sounds when you tap buttons.",
+	"settings.files": "Files",
+	"settings.showHidden": "Show hidden files",
+	"settings.showHiddenHint": "Files and folders whose name starts with a dot.",
 	"settings.haptics": "Haptics",
 	"settings.hapticsToggle": "Haptic feedback",
 	"settings.hapticsHint": "Short vibrations when you tap buttons.",
@@ -126,11 +126,11 @@ export const en = {
 	"preset.grape": "Grape",
 	"settings.reset": "Reset",
 	"settings.resetHint":
-		"Puts language, sound, haptics and colors back to their defaults. Your files are never touched.",
+		"Puts language, hidden files, haptics and colors back to their defaults. Your files are never touched.",
 	"settings.resetButton": "Reset settings",
 	"settings.resetTitle": "Reset settings?",
 	"settings.resetBody":
-		"Language, sound, haptics and colors go back to their defaults.",
+		"Language, hidden files, haptics and colors go back to their defaults.",
 
 	// about
 	"credits.about": "About",

@@ -78,9 +78,9 @@ export const eu: Messages = {
 	"settings.languageHint":
 		"“Sistemaren lehenetsia” zure telefonoaren hizkuntza jarraitzen du, eta ingelesa erabiltzen du zure hizkuntza erabilgarri ez badago.",
 	"settings.languageSystem": "Sistemaren lehenetsia",
-	"settings.sound": "Soinua",
-	"settings.soundToggle": "Soinu-efektuak",
-	"settings.soundHint": "Soinu laburrak botoiak sakatzean.",
+	"settings.files": "Fitxategiak",
+	"settings.showHidden": "Erakutsi ezkutuko fitxategiak",
+	"settings.showHiddenHint": "Izena puntu batekin hasten den fitxategi eta karpetak.",
 	"settings.haptics": "Bibrazioa",
 	"settings.hapticsToggle": "Ukipen-erantzuna",
 	"settings.hapticsHint": "Bibrazio laburrak botoiak sakatzean.",
@@ -126,11 +126,11 @@ export const eu: Messages = {
 	"preset.grape": "Mahatsa",
 	"settings.reset": "Berrezarri",
 	"settings.resetHint":
-		"Hizkuntza, soinua, bibrazioa eta koloreak lehenetsitako balioetara itzultzen ditu. Zure fitxategiei ez zaie inoiz ukitzen.",
+		"Hizkuntza, ezkutuko fitxategiak, bibrazioa eta koloreak lehenetsitako balioetara itzultzen ditu. Zure fitxategiei ez zaie inoiz ukitzen.",
 	"settings.resetButton": "Berrezarri ezarpenak",
 	"settings.resetTitle": "Ezarpenak berrezarri?",
 	"settings.resetBody":
-		"Hizkuntza, soinua, bibrazioa eta koloreak lehenetsitako balioetara itzultzen dira.",
+		"Hizkuntza, ezkutuko fitxategiak, bibrazioa eta koloreak lehenetsitako balioetara itzultzen dira.",
 
 	// about
 	"credits.about": "Honi buruz",

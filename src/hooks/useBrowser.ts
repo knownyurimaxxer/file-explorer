@@ -18,7 +18,7 @@ type Listing = {
  * read again when the app comes back to the foreground (the person may have
  * just allowed access, or added files from another app) and on request.
  */
-export function useBrowser() {
+export function useBrowser(showHidden: boolean) {
 	const [uri, setUri] = useState(INTERNAL_ROOT);
 	const [listing, setListing] = useState<Listing>({
 		entries: [],
@@ -34,11 +34,15 @@ export function useBrowser() {
 	useEffect(() => {
 		clearMetaCache();
 		try {
-			setListing({ entries: listFolder(uri), error: false, loaded: true });
+			setListing({
+				entries: listFolder(uri, showHidden),
+				error: false,
+				loaded: true,
+			});
 		} catch {
 			setListing({ entries: [], error: true, loaded: true });
 		}
-	}, [uri, tick]);
+	}, [uri, tick, showHidden]);
 
 	useEffect(() => {
 		const sub = AppState.addEventListener("change", (state) => {

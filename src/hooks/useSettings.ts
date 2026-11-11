@@ -18,10 +18,7 @@ export function useSettings() {
 				key in saved ? (saved[key] as T) : fallback;
 			const theme = get("theme", DEFAULT_SETTINGS.theme);
 			const language = get("language", DEFAULT_SETTINGS.language);
-			const soundsEnabled = get(
-				"soundsEnabled",
-				DEFAULT_SETTINGS.soundsEnabled,
-			);
+			const showHidden = get("showHidden", DEFAULT_SETTINGS.showHidden);
 			const hapticsEnabled = get(
 				"hapticsEnabled",
 				DEFAULT_SETTINGS.hapticsEnabled,
@@ -35,7 +32,7 @@ export function useSettings() {
 			setSettings({
 				theme: { ...DEFAULT_SETTINGS.theme, ...theme },
 				language,
-				soundsEnabled,
+				showHidden,
 				hapticsEnabled,
 				// A trigger added in a later version starts on, like the others.
 				haptics: {

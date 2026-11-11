@@ -76,9 +76,9 @@ export const ca: Messages = {
 	"settings.languageHint":
 		"«Predeterminat del sistema» segueix l'idioma del teu telèfon, i fa servir l'anglès si el teu idioma no està disponible.",
 	"settings.languageSystem": "Predeterminat del sistema",
-	"settings.sound": "So",
-	"settings.soundToggle": "Efectes de so",
-	"settings.soundHint": "Sons curts en tocar botons.",
+	"settings.files": "Fitxers",
+	"settings.showHidden": "Mostra els fitxers ocults",
+	"settings.showHiddenHint": "Fitxers i carpetes el nom dels quals comença amb un punt.",
 	"settings.haptics": "Vibració",
 	"settings.hapticsToggle": "Resposta tàctil",
 	"settings.hapticsHint": "Vibracions curtes en tocar botons.",
@@ -124,11 +124,11 @@ export const ca: Messages = {
 	"preset.grape": "Raïm",
 	"settings.reset": "Restableix",
 	"settings.resetHint":
-		"Torna l'idioma, el so, la vibració i els colors als seus valors predeterminats. Els teus fitxers no es toquen mai.",
+		"Torna l'idioma, els fitxers ocults, la vibració i els colors als seus valors predeterminats. Els teus fitxers no es toquen mai.",
 	"settings.resetButton": "Restableix els ajustos",
 	"settings.resetTitle": "Vols restablir els ajustos?",
 	"settings.resetBody":
-		"L'idioma, el so, la vibració i els colors tornen als seus valors predeterminats.",
+		"L'idioma, els fitxers ocults, la vibració i els colors tornen als seus valors predeterminats.",
 
 	// about
 	"credits.about": "Quant a",

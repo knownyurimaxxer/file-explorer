@@ -1,8 +1,6 @@
 import type { MessageKey } from "./i18n/locales/en";
 import { Settings, Theme } from "./types";
 
-/** The name shown in the app (the launcher name itself is in app.json). */
-export const APP_NAME = "File Explorer";
 /** Same as android.package in app.json: needed to open this app's own settings page. */
 export const APP_ID = "com.knownyurimaxxer.fileexplorer";
 
@@ -151,7 +149,7 @@ export const HAPTIC_STRENGTH = { min: 0, max: 5, default: 0 } as const;
 export const DEFAULT_SETTINGS: Settings = {
 	theme: PRESETS["Navy"],
 	language: "system",
-	soundsEnabled: true,
+	showHidden: false,
 	hapticsEnabled: false,
 	haptics: Object.fromEntries(
 		HAPTIC_TRIGGERS.map((k) => [k, true]),

@@ -31,7 +31,7 @@ export default function MainScreen({
 	const t = useT();
 	const insets = useSafeAreaInsets();
 	const s = useMemo(() => makeStyles(theme), [theme]);
-	const browser = useBrowser();
+	const browser = useBrowser(settings.showHidden);
 	const [tab, setTab] = useState<TabId>("files");
 	const [settingsOpen, setSettingsOpen] = useState(false);
 
@@ -92,6 +92,7 @@ export default function MainScreen({
 				<FilesScreen
 					browser={browser}
 					active={tab === "files" && !settingsOpen}
+					showHidden={settings.showHidden}
 					accessAsked={settings.accessAsked}
 					onAccessAsked={onAccessAsked}
 					onOpenSettings={openSettings}

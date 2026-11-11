@@ -3,6 +3,7 @@ import { SEARCH } from "../constants";
 import { listRaw } from "../storage/fs";
 import type { SearchHit } from "../types";
 import { kindOf } from "../utils/fileTypes";
+import { visibleOnly } from "../utils/hidden";
 import { compareEntries, matchesTokens, parseQuery } from "../utils/search";
 import { walkTree } from "../utils/walk";
 
@@ -29,9 +30,14 @@ const byDepthThenName = (a: SearchHit, b: SearchHit) =>
 /**
  * Looks for names matching `query` in `rootUri` and every folder below it.
  * Results appear as they are found; a new query (or leaving the folder)
- * cancels the walk that was running.
+ * cancels the walk that was running. Hidden (dotted) files and folders are
+ * skipped, and not searched inside, unless `showHidden` is on.
  */
-export function useFileSearch(rootUri: string, query: string): SearchState {
+export function useFileSearch(
+	rootUri: string,
+	query: string,
+	showHidden: boolean,
+): SearchState {
 	const [state, setState] = useState<SearchState>(IDLE);
 
 	useEffect(() => {
@@ -57,7 +63,7 @@ export function useFileSearch(rootUri: string, query: string): SearchState {
 				});
 
 			await walkTree(rootUri, {
-				list: (uri) => listRaw(uri),
+				list: (uri) => visibleOnly(listRaw(uri), showHidden),
 				isCancelled: () => cancelled || full,
 				onItem: (item, parentUri, depth) => {
 					if (!matchesTokens(item.name, tokens)) return;
@@ -86,7 +92,7 @@ export function useFileSearch(rootUri: string, query: string): SearchState {
 			cancelled = true;
 			clearTimeout(timer);
 		};
-	}, [rootUri, query]);
+	}, [rootUri, query, showHidden]);
 
 	return state;
 }

@@ -78,9 +78,9 @@ export const pt: Messages = {
 	"settings.languageHint":
 		"“Predefinição do sistema” segue o idioma do teu telemóvel e usa inglês se o teu idioma não estiver disponível.",
 	"settings.languageSystem": "Predefinição do sistema",
-	"settings.sound": "Som",
-	"settings.soundToggle": "Efeitos sonoros",
-	"settings.soundHint": "Sons curtos ao tocar em botões.",
+	"settings.files": "Ficheiros",
+	"settings.showHidden": "Mostrar ficheiros ocultos",
+	"settings.showHiddenHint": "Ficheiros e pastas cujo nome começa com um ponto.",
 	"settings.haptics": "Vibração",
 	"settings.hapticsToggle": "Resposta háptica",
 	"settings.hapticsHint": "Vibrações curtas ao tocar em botões.",
@@ -126,11 +126,11 @@ export const pt: Messages = {
 	"preset.grape": "Uva",
 	"settings.reset": "Repor",
 	"settings.resetHint":
-		"Repõe o idioma, o som, a vibração e as cores nos valores predefinidos. Os teus ficheiros nunca são tocados.",
+		"Repõe o idioma, os ficheiros ocultos, a vibração e as cores nos valores predefinidos. Os teus ficheiros nunca são tocados.",
 	"settings.resetButton": "Repor definições",
 	"settings.resetTitle": "Repor definições?",
 	"settings.resetBody":
-		"O idioma, o som, a vibração e as cores voltam aos valores predefinidos.",
+		"O idioma, os ficheiros ocultos, a vibração e as cores voltam aos valores predefinidos.",
 
 	// about
 	"credits.about": "Sobre",

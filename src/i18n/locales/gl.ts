@@ -76,9 +76,9 @@ export const gl: Messages = {
 	"settings.languageHint":
 		"“Predeterminado do sistema” segue o idioma do teu teléfono e usa inglés se o teu idioma non está dispoñible.",
 	"settings.languageSystem": "Predeterminado do sistema",
-	"settings.sound": "Son",
-	"settings.soundToggle": "Efectos de son",
-	"settings.soundHint": "Sons curtos ao tocar botóns.",
+	"settings.files": "Ficheiros",
+	"settings.showHidden": "Mostrar ficheiros ocultos",
+	"settings.showHiddenHint": "Ficheiros e cartafoles cuxo nome comeza cun punto.",
 	"settings.haptics": "Vibración",
 	"settings.hapticsToggle": "Resposta táctil",
 	"settings.hapticsHint": "Vibracións curtas ao tocar botóns.",
@@ -124,11 +124,11 @@ export const gl: Messages = {
 	"preset.grape": "Uva",
 	"settings.reset": "Restablecer",
 	"settings.resetHint":
-		"Devolve o idioma, o son, a vibración e as cores aos seus valores predeterminados. Os teus ficheiros nunca se tocan.",
+		"Devolve o idioma, os ficheiros ocultos, a vibración e as cores aos seus valores predeterminados. Os teus ficheiros nunca se tocan.",
 	"settings.resetButton": "Restablecer axustes",
 	"settings.resetTitle": "Restablecer os axustes?",
 	"settings.resetBody":
-		"O idioma, o son, a vibración e as cores volven aos seus valores predeterminados.",
+		"O idioma, os ficheiros ocultos, a vibración e as cores volven aos seus valores predeterminados.",
 
 	// about
 	"credits.about": "Acerca de",

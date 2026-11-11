@@ -14,7 +14,6 @@ import MainScreen from "./src/screens/MainScreen";
 import { warmDb } from "./src/storage/db";
 import { ThemeContext } from "./src/theme/ThemeContext";
 import { configureHaptics } from "./src/utils/haptics";
-import { configureSounds } from "./src/utils/sounds";
 import { readableOn } from "./src/utils/format";
 
 // Keep the splash screen up until the app can show its final layout, and open
@@ -40,7 +39,6 @@ export default function App() {
 		settings.haptics,
 		settings.hapticLevel,
 	);
-	configureSounds(settings.soundsEnabled);
 	const [fontsReady, setFontsReady] = useState(false);
 	const [filesLoaded, setFilesLoaded] = useState(false);
 	const splashHidden = useRef(false);

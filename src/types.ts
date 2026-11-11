@@ -12,8 +12,8 @@ export type Settings = {
 	theme: Theme;
 	/** "system" (follow the phone), or the code of one of the languages in i18n/LANGUAGES. */
 	language: string;
-	/** Short sounds when you tap buttons. On by default. */
-	soundsEnabled: boolean;
+	/** Show files and folders whose name starts with a dot. Off by default. */
+	showHidden: boolean;
 	/** Master switch for vibration feedback. Off by default. */
 	hapticsEnabled: boolean;
 	/** Which haptic triggers are on (only used while hapticsEnabled is on). */

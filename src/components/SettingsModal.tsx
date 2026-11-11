@@ -1,6 +1,5 @@
 import { Fragment, ReactNode, useMemo, useState } from "react";
 import {
-	Image,
 	Linking,
 	Modal,
 	Platform,
@@ -15,7 +14,6 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import {
-	APP_NAME,
 	HAPTIC_STRENGTH,
 	HAPTIC_TRIGGERS,
 	LINKS,
@@ -36,7 +34,6 @@ import { Settings, Theme, UpdateSetting } from "../types";
 import { feedback } from "../utils/feedback";
 import { readableOn } from "../utils/format";
 import { playHaptic, previewStrength } from "../utils/haptics";
-import { previewSound } from "../utils/sounds";
 import { exportTheme } from "../utils/themeIO";
 import ColorPicker from "./ColorPicker";
 import StepSlider from "./StepSlider";
@@ -257,25 +254,22 @@ export default function SettingsModal({
 						{t("settings.languageHint")}
 					</Text>
 
-					{/* sound: one switch, on by default */}
+					{/* hidden files: one switch, off by default */}
 					<Text style={[s.section, { marginTop: 24 }]}>
-						{t("settings.sound")}
+						{t("settings.files")}
 					</Text>
 					<View style={s.row}>
 						<View style={{ flex: 1, paddingRight: 12 }}>
 							<Text style={s.rowTitle}>
-								{t("settings.soundToggle")}
+								{t("settings.showHidden")}
 							</Text>
 							<Text style={s.rowHint}>
-								{t("settings.soundHint")}
+								{t("settings.showHiddenHint")}
 							</Text>
 						</View>
 						<Switch
-							value={settings.soundsEnabled}
-							onValueChange={(v) => {
-								update("soundsEnabled", v);
-								if (v) previewSound(); // a taste of it
-							}}
+							value={settings.showHidden}
+							onValueChange={(v) => update("showHidden", v)}
 							trackColor={{
 								true: theme.accent,
 								false: "#88888888",
