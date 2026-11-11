@@ -1,5 +1,5 @@
 {
-	"name": "fileway",
+	"name": "fileexplorer",
 	"version": "1.0.0",
 	"main": "index.ts",
 	"license": "MIT",
@@ -35,7 +35,8 @@
 		"typecheck": "tsc --noEmit",
 		"test": "vitest run",
 		"test:watch": "vitest",
-		"check": "npm run typecheck && npm test"
+		"check": "npm run typecheck && npm test",
+		"branding": "python3 tools/generate_branding.py"
 	},
 	"private": true
 }

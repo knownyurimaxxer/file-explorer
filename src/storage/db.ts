@@ -9,7 +9,7 @@ let dbPromise: Promise<SQLite.SQLiteDatabase> | null = null;
 function getDb(): Promise<SQLite.SQLiteDatabase> {
 	if (!dbPromise) {
 		dbPromise = (async () => {
-			const db = await SQLite.openDatabaseAsync("fileway.db");
+			const db = await SQLite.openDatabaseAsync("fileexplorer.db");
 			await db.execAsync(`
 				CREATE TABLE IF NOT EXISTS settings (
 					key   TEXT PRIMARY KEY NOT NULL,

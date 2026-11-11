@@ -2,9 +2,9 @@ import type { MessageKey } from "./i18n/locales/en";
 import { Settings, Theme } from "./types";
 
 /** The name shown in the app (the launcher name itself is in app.json). */
-export const APP_NAME = "Fileway";
+export const APP_NAME = "File Explorer";
 /** Same as android.package in app.json: needed to open this app's own settings page. */
-export const APP_ID = "com.knownyurimaxxer.fileway";
+export const APP_ID = "com.knownyurimaxxer.fileexplorer";
 
 /** Shared storage as the system shows it to apps (the phone's "Internal storage"). */
 export const INTERNAL_ROOT = "file:///storage/emulated/0";
@@ -14,15 +14,18 @@ export const VOLUMES_DIR = "file:///storage";
 export const NOT_VOLUMES = ["emulated", "self"];
 
 /** Folders of the internal storage offered as quick places, if they exist. */
-export const PLACE_FOLDERS: { id: string; folder: string; label: MessageKey }[] =
-	[
-		{ id: "downloads", folder: "Download", label: "place.downloads" },
-		{ id: "camera", folder: "DCIM", label: "place.camera" },
-		{ id: "documents", folder: "Documents", label: "place.documents" },
-		{ id: "pictures", folder: "Pictures", label: "place.pictures" },
-		{ id: "music", folder: "Music", label: "place.music" },
-		{ id: "movies", folder: "Movies", label: "place.movies" },
-	];
+export const PLACE_FOLDERS: {
+	id: string;
+	folder: string;
+	label: MessageKey;
+}[] = [
+	{ id: "downloads", folder: "Download", label: "place.downloads" },
+	{ id: "camera", folder: "DCIM", label: "place.camera" },
+	{ id: "documents", folder: "Documents", label: "place.documents" },
+	{ id: "pictures", folder: "Pictures", label: "place.pictures" },
+	{ id: "music", folder: "Music", label: "place.music" },
+	{ id: "movies", folder: "Movies", label: "place.movies" },
+];
 
 /** Search: results kept, wait after typing, and how a long walk shares the thread. */
 export const SEARCH = { maxResults: 300, debounceMs: 250 } as const;

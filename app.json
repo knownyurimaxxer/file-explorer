@@ -1,7 +1,7 @@
 {
 	"expo": {
-		"name": "Fileway",
-		"slug": "fileway",
+		"name": "File Explorer",
+		"slug": "fileexplorer",
 		"version": "1.0.0",
 		"orientation": "default",
 		"icon": "./assets/icon.png",
@@ -17,7 +17,7 @@
 				"monochromeImage": "./assets/android-icon-monochrome.png"
 			},
 			"predictiveBackGestureEnabled": false,
-			"package": "com.knownyurimaxxer.fileway",
+			"package": "com.knownyurimaxxer.fileexplorer",
 			"permissions": [
 				"android.permission.READ_EXTERNAL_STORAGE",
 				"android.permission.MANAGE_EXTERNAL_STORAGE"
