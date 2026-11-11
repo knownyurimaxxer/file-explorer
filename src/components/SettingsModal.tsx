@@ -263,8 +263,12 @@ export default function SettingsModal({
 					</Text>
 					<View style={s.row}>
 						<View style={{ flex: 1, paddingRight: 12 }}>
-							<Text style={s.rowTitle}>{t("settings.soundToggle")}</Text>
-							<Text style={s.rowHint}>{t("settings.soundHint")}</Text>
+							<Text style={s.rowTitle}>
+								{t("settings.soundToggle")}
+							</Text>
+							<Text style={s.rowHint}>
+								{t("settings.soundHint")}
+							</Text>
 						</View>
 						<Switch
 							value={settings.soundsEnabled}
@@ -586,17 +590,7 @@ export default function SettingsModal({
 						{t("credits.about")}
 					</Text>
 					<View style={s.rowBlock}>
-						<View style={s.brand}>
-							<Image
-								source={require("../../assets/icon.png")}
-								style={s.brandIcon}
-							/>
-							<View style={{ flex: 1 }}>
-								<Text style={s.brandName}>{APP_NAME}</Text>
-								<Text style={s.rowHint}>{t("about.tagline")}</Text>
-							</View>
-						</View>
-						<Text style={[s.body, { marginTop: 12 }]}>
+						<Text style={s.body}>
 							{fill(t("credits.icons"), {
 								ionicons: link("Ionicons", LINKS.ionicons),
 								ionic: link("@ionic", LINKS.ionic),
@@ -810,8 +804,5 @@ const makeStyles = (t: Theme) => {
 			fontWeight: "600",
 			textDecorationLine: "underline",
 		},
-		brand: { flexDirection: "row", alignItems: "center", gap: 12 },
-		brandIcon: { width: 56, height: 56, borderRadius: 12 },
-		brandName: { color: t.text, fontWeight: "800", fontSize: 18 },
 	});
 };
