@@ -1,0 +1,177 @@
+import { describe, expect, it } from "vitest";
+import {
+	HAPTIC_TRIGGERS,
+	PLACE_FOLDERS,
+	PRESET_LABELS,
+	PRESETS,
+	ROLE_LABELS,
+} from "../src/constants";
+import {
+	buildI18n,
+	FALLBACK_LANGUAGE,
+	LANGUAGES,
+	makeTranslator,
+	pickLanguage,
+	resolveLanguage,
+	SYSTEM_LANGUAGE,
+} from "../src/i18n";
+import { en } from "../src/i18n/locales/en";
+import { STAT_CATEGORIES } from "../src/utils/scan";
+
+const placeholders = (text: string) =>
+	(text.match(/\{\w+\}/g) ?? []).sort().join(",");
+
+describe("pickLanguage", () => {
+	const have = ["en", "es", "pt-BR"];
+
+	it("takes the phone's language when we have it", () => {
+		expect(pickLanguage(["es-ES"], have)).toBe("es");
+		expect(pickLanguage(["es"], have)).toBe("es");
+	});
+
+	it("is not case sensitive and accepts underscores", () => {
+		expect(pickLanguage(["ES_es"], have)).toBe("es");
+		expect(pickLanguage(["pt-br"], have)).toBe("pt-BR");
+	});
+
+	it("matches a regional variant to the language we have", () => {
+		expect(pickLanguage(["pt-PT"], have)).toBe("pt-BR");
+		expect(pickLanguage(["pt"], have)).toBe("pt-BR");
+	});
+
+	it("tries the phone's next language when the first isn't available", () => {
+		expect(pickLanguage(["fr-FR", "es-ES", "en-GB"], have)).toBe("es");
+	});
+
+	it("falls back to English when nothing matches", () => {
+		expect(pickLanguage(["fr-FR", "ja-JP"], have)).toBe("en");
+		expect(pickLanguage([], have)).toBe("en");
+		expect(pickLanguage(["xx"], ["es"], "es")).toBe("es");
+	});
+
+	it("uses the real list of languages by default", () => {
+		expect(pickLanguage(["es-MX"])).toBe("es");
+		expect(pickLanguage(["de-DE"])).toBe(FALLBACK_LANGUAGE);
+	});
+});
+
+describe("resolveLanguage", () => {
+	it("follows the phone for the system setting", () => {
+		expect(resolveLanguage(SYSTEM_LANGUAGE, ["es-ES"])).toBe("es");
+		expect(resolveLanguage(SYSTEM_LANGUAGE, ["fr-FR"])).toBe("en");
+		expect(resolveLanguage(SYSTEM_LANGUAGE, [])).toBe("en");
+	});
+
+	it("uses a chosen language whatever the phone says", () => {
+		expect(resolveLanguage("en", ["es-ES"])).toBe("en");
+		expect(resolveLanguage("es", ["fr-FR"])).toBe("es");
+	});
+
+	it("treats a language that no longer exists like the system setting", () => {
+		expect(resolveLanguage("klingon", ["es-ES"])).toBe("es");
+		expect(resolveLanguage("klingon", ["fr-FR"])).toBe("en");
+	});
+});
+
+describe("makeTranslator", () => {
+	it("looks texts up and fills in placeholders", () => {
+		const t = makeTranslator(en);
+		expect(t("common.cancel")).toBe("Cancel");
+		expect(t("storage.usedOf", { used: "10 GB", total: "64 GB" })).toBe(
+			"10 GB used of 64 GB",
+		);
+	});
+
+	it("leaves a placeholder alone when it isn't given", () => {
+		expect(makeTranslator(en)("files.found")).toBe("{n} found");
+		expect(makeTranslator(en)("files.found", { x: 1 })).toBe("{n} found");
+	});
+
+	it("shows English for a text the language doesn't have yet", () => {
+		const partial = { ...LANGUAGES[1].messages } as Record<string, string>;
+		delete partial["common.cancel"];
+		const t = makeTranslator(partial as typeof en);
+		expect(t("common.cancel")).toBe("Cancel");
+		expect(t("common.done")).toBe(LANGUAGES[1].messages["common.done"]);
+	});
+});
+
+describe("buildI18n", () => {
+	it("gives the language, its locale and its texts", () => {
+		const es = buildI18n(SYSTEM_LANGUAGE, ["es-ES"]);
+		expect(es.language).toBe("es");
+		expect(es.locale).toBe("es");
+		expect(es.t("common.done")).toBe("Listo");
+		const fallback = buildI18n(SYSTEM_LANGUAGE, ["fr-FR"]);
+		expect(fallback.language).toBe("en");
+		expect(fallback.t("common.done")).toBe("Done");
+	});
+});
+
+describe("systemLanguage", () => {
+	it("is the phone's language, whatever language is chosen", () => {
+		expect(buildI18n("en", ["es-ES"]).systemLanguage).toBe("es");
+		expect(buildI18n("es", ["fr-FR"]).systemLanguage).toBe("en");
+		expect(buildI18n(SYSTEM_LANGUAGE, ["es-ES"]).systemLanguage).toBe("es");
+	});
+});
+
+describe("every language file", () => {
+	const keys = Object.keys(en);
+
+	it("has English, which is the fallback", () => {
+		expect(LANGUAGES.some((l) => l.code === FALLBACK_LANGUAGE)).toBe(true);
+	});
+
+	it("has a unique code and a name", () => {
+		const codes = LANGUAGES.map((l) => l.code);
+		expect(new Set(codes).size).toBe(codes.length);
+		expect(codes.includes(SYSTEM_LANGUAGE)).toBe(false);
+		for (const l of LANGUAGES) expect(l.name.trim().length > 0).toBe(true);
+	});
+
+	for (const lang of LANGUAGES) {
+		it(`${lang.code}: has exactly the keys of English, none empty`, () => {
+			expect(Object.keys(lang.messages).sort()).toEqual([...keys].sort());
+			for (const k of keys)
+				expect(
+					(lang.messages as Record<string, string>)[k].trim().length >
+						0,
+				).toBe(true);
+		});
+
+		it(`${lang.code}: keeps the {placeholders} of every text`, () => {
+			for (const k of keys)
+				expect(
+					placeholders((lang.messages as Record<string, string>)[k]),
+				).toBe(placeholders((en as Record<string, string>)[k]));
+		});
+	}
+});
+
+describe("labels in constants", () => {
+	it("has a text for every preset and every color row", () => {
+		for (const name of Object.keys(PRESETS))
+			expect(PRESET_LABELS[name] in en).toBe(true);
+		for (const key of Object.values(ROLE_LABELS))
+			expect(key in en).toBe(true);
+	});
+});
+
+describe("texts used by the code", () => {
+	it("exist for every kind of file, every place and every haptic moment", () => {
+		for (const c of STAT_CATEGORIES) expect(`kind.${c}` in en).toBe(true);
+		for (const p of PLACE_FOLDERS) expect(p.label in en).toBe(true);
+		for (const h of HAPTIC_TRIGGERS) expect(`haptics.${h}` in en).toBe(true);
+	});
+
+	it("keep the credits the app promises (icons, author, Ko-fi)", () => {
+		expect(en["credits.icons"]).toContain("{ionicons}");
+		expect(en["credits.madeBy"]).toContain("{developer}");
+		expect("credits.kofi" in en).toBe(true);
+	});
+
+	it("no longer mention the idea behind the original app", () => {
+		expect(Object.keys(en).some((k) => k.startsWith("credits.idea"))).toBe(false);
+	});
+});
