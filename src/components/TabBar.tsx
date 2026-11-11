@@ -11,11 +11,14 @@ import type { IconName } from "./fileIcons";
 
 export type TabId = "files" | "storage";
 
-const TABS: { id: TabId; icon: IconName; label: "tab.files" | "tab.storage" }[] =
-	[
-		{ id: "files", icon: "folder-open-outline", label: "tab.files" },
-		{ id: "storage", icon: "pie-chart-outline", label: "tab.storage" },
-	];
+const TABS: {
+	id: TabId;
+	icon: IconName;
+	label: "tab.files" | "tab.storage";
+}[] = [
+	{ id: "files", icon: "folder-open-outline", label: "tab.files" },
+	{ id: "storage", icon: "pie-chart-outline", label: "tab.storage" },
+];
 
 type Props = { active: TabId; onChange: (tab: TabId) => void };
 
@@ -67,8 +70,6 @@ const makeStyles = (t: Theme) =>
 			gap: 8,
 			paddingTop: 8,
 			backgroundColor: t.card,
-			borderTopWidth: StyleSheet.hairlineWidth,
-			borderTopColor: t.text + "33",
 		},
 		tab: {
 			flex: 1,

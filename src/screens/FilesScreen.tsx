@@ -324,24 +324,6 @@ export default function FilesScreen({
 			</ScrollView>
 
 			<View style={s.pathRow}>
-				{canGoUp && (
-					<Pressable
-						accessibilityRole="button"
-						accessibilityLabel={t("files.up")}
-						hitSlop={8}
-						onPress={() => {
-							feedback("up");
-							browser.up();
-						}}
-						style={s.upBtn}
-					>
-						<Ionicons
-							name="arrow-up"
-							size={18}
-							color={readableOn(theme.accent)}
-						/>
-					</Pressable>
-				)}
 				<ScrollView
 					ref={crumbsRef}
 					horizontal
@@ -374,6 +356,10 @@ export default function FilesScreen({
 								name="chevron-forward"
 								size={14}
 								color={onBg + "88"}
+								style={{
+									top: 2,
+									left: 1,
+								}}
 							/>
 							<Pressable
 								onPress={() => {
@@ -462,8 +448,12 @@ const makeStyles = (t: Theme) =>
 			paddingVertical: 10,
 		},
 		gear: { padding: 4 },
-		chipsScroll: { flexGrow: 0 },
-		chips: { gap: 8, paddingHorizontal: 14, paddingVertical: 10 },
+		chipsScroll: { flexShrink: 0, flexGrow: 0 },
+		chips: {
+			gap: 8,
+			paddingHorizontal: 14,
+			paddingVertical: 10,
+		},
 		pathRow: {
 			flexDirection: "row",
 			alignItems: "center",
@@ -487,7 +477,7 @@ const makeStyles = (t: Theme) =>
 			fontWeight: "600",
 		},
 		crumbLast: { color: readableOn(t.background), fontWeight: "800" },
-		list: { paddingTop: 4, paddingBottom: 24, flexGrow: 1 },
+		list: { paddingTop: 4, paddingBottom: 4, flexGrow: 1 },
 		cell: { flex: 1, paddingHorizontal: 4 },
 		status: {
 			flexDirection: "row",
