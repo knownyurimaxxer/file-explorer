@@ -225,11 +225,15 @@ const makeStyles = (t: Theme) =>
 			alignItems: "center",
 			justifyContent: "space-between",
 			paddingHorizontal: 14,
-			paddingTop: 10,
+			paddingTop: 8,
 			paddingBottom: 4,
+			// 8 + 40 + 4: the same row height as the search box in the Files tab,
+			// so the settings icon sits at the same height on both tabs
+			minHeight: 52,
 		},
 		title: { color: readableOn(t.background), fontSize: 22, fontWeight: "800" },
-		gear: { padding: 4 },
+		// the negative margin pulls the icon itself to 15 from the edge (not its 4 of padding)
+		gear: { padding: 4, marginRight: -4 },
 		content: { paddingTop: 10, paddingBottom: 28 },
 		card: {
 			backgroundColor: t.card,

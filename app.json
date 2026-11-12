@@ -29,6 +29,7 @@
 		"plugins": [
 			"expo-sqlite",
 			"expo-localization",
+			"./plugins/withLegacyStorage",
 			[
 				"expo-splash-screen",
 				{

@@ -36,7 +36,8 @@ If you have an issue, just open an [Issue](../../issues)!
 - Android only for now. There's no iPhone version available.
 - On Android 11 and newer it needs the **All files access** permission to see
   your folders. The app asks for it the first time; it's one switch in the
-  system settings.
+  system settings. On Android 10 and older it asks for the usual storage
+  permission instead.
 - The Storage tab only counts what the app is allowed to read, so its numbers
   can be a little different from Android's own.
 
@@ -59,6 +60,8 @@ It's an [Expo](https://expo.dev) app. `npm install`, then `npm start` to run
 it, and `npm run check` to run the type check and the tests. It needs a
 development build (or the APK), not Expo Go, because of the storage
 permission.
+
+`tools/generate_branding.py` redraws the icons and store images.
 
 ## Credits
 

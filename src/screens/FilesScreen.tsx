@@ -431,9 +431,9 @@ const makeStyles = (t: Theme) =>
 		searchRow: {
 			flexDirection: "row",
 			alignItems: "center",
-			gap: 12,
+			gap: 8,
 			paddingHorizontal: 14,
-			paddingTop: 10,
+			paddingTop: 8,
 		},
 		searchBox: {
 			flex: 1,
@@ -443,6 +443,7 @@ const makeStyles = (t: Theme) =>
 			backgroundColor: t.card,
 			borderRadius: 8,
 			paddingHorizontal: 12,
+			minHeight: 40,
 		},
 		searchInput: {
 			flex: 1,
@@ -450,12 +451,14 @@ const makeStyles = (t: Theme) =>
 			fontSize: 15,
 			paddingVertical: 10,
 		},
-		gear: { padding: 4 },
+		// the negative margin pulls the icon itself to 15 from the edge (not its 4 of padding)
+		gear: { padding: 4, marginRight: -4 },
 		chipsScroll: { flexShrink: 0, flexGrow: 0 },
 		chips: {
 			gap: 8,
 			paddingHorizontal: 14,
-			paddingVertical: 10,
+			paddingTop: 8,
+			paddingBottom: 10,
 		},
 		pathRow: {
 			flexDirection: "row",
