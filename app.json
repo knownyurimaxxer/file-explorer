@@ -30,6 +30,7 @@
 			"expo-sqlite",
 			"expo-localization",
 			"./plugins/withLegacyStorage",
+			"./plugins/withOpenFileProvider",
 			[
 				"expo-splash-screen",
 				{

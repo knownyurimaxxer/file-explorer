@@ -136,13 +136,13 @@ export default function FilesScreen({
 			}
 			feedback("file");
 			const result = await openFile(entry.uri, entry.name);
-			if (result !== "ok") {
+			if (result.status !== "ok") {
 				feedback("error");
 				Alert.alert(
 					t("files.openFailedTitle"),
-					result === "noApp"
+					result.status === "noApp"
 						? t("files.noApp")
-						: t("files.openError"),
+						: `${t("files.openError")}\n\n${result.detail}`,
 				);
 			}
 		},

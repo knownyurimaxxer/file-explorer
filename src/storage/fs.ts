@@ -17,6 +17,7 @@ import {
 import type { Entry, Place } from "../types";
 import { kindOf, mimeOf } from "../utils/fileTypes";
 import { visibleOnly } from "../utils/hidden";
+import { providerUriFor } from "../utils/openUri";
 import { compareEntries } from "../utils/search";
 import type { WalkItem } from "../utils/walk";
 
@@ -69,7 +70,9 @@ export function readMeta(uri: string): FileMeta {
 		};
 		meta = {
 			size: typeof info.size === "number" ? info.size : null,
-			modifiedAt: info.modificationTime ? toMs(info.modificationTime) : null,
+			modifiedAt: info.modificationTime
+				? toMs(info.modificationTime)
+				: null,
 		};
 	} catch {
 		/* no details for this one */
@@ -112,7 +115,8 @@ export function findPlaces(): Place[] {
 	}
 	for (const p of PLACE_FOLDERS) {
 		const uri = `${INTERNAL_ROOT}/${p.folder}`;
-		if (folderExists(uri)) places.push({ id: p.id, labelKey: p.label, uri });
+		if (folderExists(uri))
+			places.push({ id: p.id, labelKey: p.label, uri });
 	}
 	return places;
 }
@@ -131,28 +135,56 @@ export function readDiskSpace(): { total: number; free: number } | null {
 
 /* ---- opening files ---- */
 
-export type OpenResult = "ok" | "noApp" | "error";
+export type OpenResult =
+	| { status: "ok" }
+	| { status: "noApp" }
+	/** `detail` is the technical reason, shown so a failure can be tracked down. */
+	| { status: "error"; detail: string };
 
-/** Opens a file in whichever app the system picks for its type (it asks, if there are several). */
+/**
+ * Opens a file in whichever app the system picks for its type (it asks, if there
+ * are several). The other app gets a content:// address from the app's own file
+ * provider (plugins/withOpenFileProvider.js); Expo's address is the second try.
+ */
 export async function openFile(uri: string, name: string): Promise<OpenResult> {
-	if (Platform.OS !== "android") return "error";
-	try {
-		const file = new File(uri);
-		// A content:// address the other app is allowed to read; the plain
-		// file:// one is refused by Android.
-		const data = (file as unknown as { contentUri?: string }).contentUri ?? uri;
-		await IntentLauncher.startActivityAsync("android.intent.action.VIEW", {
-			data,
-			type: mimeOf(name),
-			flags: 1, // FLAG_GRANT_READ_URI_PERMISSION
-		});
-		return "ok";
-	} catch (e) {
-		const message = String(e instanceof Error ? e.message : e);
-		return /ActivityNotFound|No Activity found/i.test(message)
-			? "noApp"
-			: "error";
+	if (Platform.OS !== "android") {
+		return { status: "error", detail: "Android only" };
 	}
+	const type = mimeOf(name);
+	const candidates: string[] = [];
+	const own = providerUriFor(uri, APP_ID);
+	if (own) candidates.push(own);
+	try {
+		const expoUri = (new File(uri) as unknown as { contentUri?: string })
+			.contentUri;
+		if (expoUri) candidates.push(expoUri);
+	} catch {
+		/* no Expo address for it */
+	}
+	const problems: string[] = [];
+	for (const data of candidates) {
+		try {
+			await IntentLauncher.startActivityAsync(
+				"android.intent.action.VIEW",
+				{
+					data,
+					type,
+					flags: 1, // FLAG_GRANT_READ_URI_PERMISSION
+				},
+			);
+			return { status: "ok" };
+		} catch (e) {
+			const message = String(e instanceof Error ? e.message : e);
+			if (/ActivityNotFound|No Activity found/i.test(message)) {
+				return { status: "noApp" };
+			}
+			problems.push(message);
+		}
+	}
+	const detail = problems.length
+		? problems.join("\n")
+		: "No address for the file";
+	return { status: "error", detail: detail.slice(0, 300) };
 }
 
 /* ---- permission to read the whole storage ---- */
@@ -188,7 +220,8 @@ export async function openAllFilesAccessSettings(): Promise<void> {
 
 /** Android 10 and older: the ordinary "read storage" permission. True when granted. */
 export async function requestLegacyReadAccess(): Promise<boolean> {
-	if (Platform.OS !== "android" || Number(Platform.Version) >= 30) return true;
+	if (Platform.OS !== "android" || Number(Platform.Version) >= 30)
+		return true;
 	try {
 		const result = await PermissionsAndroid.request(
 			PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
