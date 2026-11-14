@@ -22,11 +22,16 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
+import { PasteBar, SelectionActions } from "../components/ActionBars";
 import Chip from "../components/Chip";
 import FileRow from "../components/FileRow";
+import OperationModal from "../components/OperationModal";
+import SelectionHeader from "../components/SelectionHeader";
 import { useI18n } from "../i18n/I18nContext";
 import { useBrowser } from "../hooks/useBrowser";
+import { useFileOps } from "../hooks/useFileOps";
 import { useFileSearch } from "../hooks/useFileSearch";
+import { useSelection } from "../hooks/useSelection";
 import {
 	needsAllFilesAccess,
 	openAllFilesAccessSettings,
@@ -76,6 +81,10 @@ export default function FilesScreen({
 	const { open: openFolder, up: goUp } = browser;
 	const search = useFileSearch(uri, query, showHidden);
 	const searching = search.active;
+	const selection = useSelection();
+	const { clear: clearSelection, toggle: toggleSelected } = selection;
+	const { selecting } = selection;
+	const ops = useFileOps({ currentUri: uri, onChanged: browser.refresh });
 
 	const columns = Math.min(
 		MAX_COLUMNS,
@@ -88,8 +97,9 @@ export default function FilesScreen({
 	// Moving to another folder clears the search and starts at the top.
 	useEffect(() => {
 		setQuery("");
+		clearSelection();
 		listRef.current?.scrollToOffset({ offset: 0, animated: false });
-	}, [uri]);
+	}, [uri, clearSelection]);
 
 	const crumbs = useMemo(() => crumbsBelow(uri, root), [uri, root]);
 	useEffect(() => {
@@ -109,10 +119,14 @@ export default function FilesScreen({
 		return best?.id ?? null;
 	}, [places, uri]);
 
-	// The back button: clear the search, then go up a folder, then leave.
+	// The back button: end the selection, clear the search, then go up a folder, then leave.
 	useEffect(() => {
 		if (!active) return;
 		const sub = BackHandler.addEventListener("hardwareBackPress", () => {
+			if (selecting) {
+				clearSelection();
+				return true;
+			}
 			if (query !== "") {
 				setQuery("");
 				return true;
@@ -125,10 +139,15 @@ export default function FilesScreen({
 			return false;
 		});
 		return () => sub.remove();
-	}, [active, query, canGoUp, goUp]);
+	}, [active, selecting, clearSelection, query, canGoUp, goUp]);
 
 	const onPressEntry = useCallback(
 		async (entry: Entry) => {
+			if (selecting) {
+				feedback("action");
+				toggleSelected(entry);
+				return;
+			}
 			if (entry.isDirectory) {
 				feedback("folder");
 				openFolder(entry.uri);
@@ -146,7 +165,16 @@ export default function FilesScreen({
 				);
 			}
 		},
-		[openFolder, t],
+		[selecting, toggleSelected, openFolder, t],
+	);
+
+	// Holding a row starts selecting with it; while selecting it ticks or unticks it.
+	const onLongPressEntry = useCallback(
+		(entry: Entry) => {
+			feedback("action");
+			toggleSelected(entry);
+		},
+		[toggleSelected],
 	);
 
 	const onAllowAccess = () => {
@@ -164,6 +192,8 @@ export default function FilesScreen({
 
 	const showBanner = needsAllFilesAccess() && (!accessAsked || error);
 	const data: (Entry | SearchHit)[] = searching ? search.results : entries;
+	const allSelected =
+		data.length > 0 && data.every((e) => selection.items.has(e.uri));
 
 	const renderItem = useCallback(
 		({ item }: { item: Entry | SearchHit }) => {
@@ -178,11 +208,22 @@ export default function FilesScreen({
 								: undefined
 						}
 						onPress={onPressEntry}
+						onLongPress={onLongPressEntry}
+						selecting={selecting}
+						selected={selection.items.has(item.uri)}
 					/>
 				</View>
 			);
 		},
-		[searching, uri, onPressEntry, s],
+		[
+			searching,
+			uri,
+			onPressEntry,
+			onLongPressEntry,
+			selecting,
+			selection.items,
+			s,
+		],
 	);
 
 	const header = (
@@ -262,6 +303,16 @@ export default function FilesScreen({
 				</Pressable>
 			)}
 
+			{selecting ? (
+				<SelectionHeader
+					count={selection.count}
+					allSelected={allSelected}
+					onCancel={clearSelection}
+					onToggleAll={() =>
+						allSelected ? clearSelection() : selection.setAll(data)
+					}
+				/>
+			) : (
 			<View style={s.searchRow}>
 				<View style={s.searchBox}>
 					<Ionicons
@@ -306,6 +357,7 @@ export default function FilesScreen({
 					<Ionicons name="settings-outline" size={24} color={onBg} />
 				</Pressable>
 			</View>
+			)}
 
 			<ScrollView
 				horizontal
@@ -390,6 +442,7 @@ export default function FilesScreen({
 				ref={listRef}
 				key={columns}
 				data={data}
+				extraData={selection.items}
 				numColumns={columns}
 				keyExtractor={(item) => item.uri}
 				renderItem={renderItem}
@@ -415,6 +468,31 @@ export default function FilesScreen({
 					/>
 				}
 			/>
+
+			{selecting ? (
+				<SelectionActions
+					onCopy={() => {
+						ops.copy([...selection.items.values()]);
+						clearSelection();
+					}}
+					onMove={() => {
+						ops.move([...selection.items.values()]);
+						clearSelection();
+					}}
+					onDelete={() =>
+						ops.remove([...selection.items.values()], clearSelection)
+					}
+				/>
+			) : ops.clipboard ? (
+				<PasteBar
+					mode={ops.clipboard.mode}
+					count={ops.clipboard.items.length}
+					onPaste={ops.paste}
+					onCancel={ops.cancelClipboard}
+				/>
+			) : null}
+
+			<OperationModal run={ops.run} onStop={ops.stop} onClose={ops.closeRun} />
 		</View>
 	);
 }

@@ -1,5 +1,5 @@
-**TLDR**: it's a small, good-looking file explorer with search and a view of
-what's eating your storage.
+**TLDR**: it's a small, good-looking file explorer with search, copy, move and
+delete, and a view of what's eating your storage.
 
 If you have an issue, just open an [Issue](../../issues)!
 
@@ -14,6 +14,13 @@ If you have an issue, just open an [Issue](../../issues)!
 - **Search.** Type in the search box and it looks through the current folder
   and everything below it. Accents and capitals don't matter, and every word
   you type has to be in the name ("trip 2026" finds "2026 summer trip.jpg").
+- **Copy, move and delete.** Hold a file or folder to start selecting, tap to
+  add more, then choose **Copy**, **Move** or **Delete**. For copy and move,
+  browse to the folder you want and tap **Paste here**. Nothing is ever
+  overwritten: if the name is taken, the new one becomes "name (1)". Folders go
+  with everything inside them, and if one item fails the rest still go through.
+  Delete is permanent (Android gives this app no trash), so it always asks
+  first.
 - **Storage.** The second tab shows how full your phone is, and, if you tap
   **Analyze**, what is using the space: by type (images, videos, audio...) and
   by biggest folders. Tap a folder to jump to it.
@@ -31,13 +38,20 @@ If you have an issue, just open an [Issue](../../issues)!
 
 ## What it doesn't do
 
-- It only reads. It never moves, renames, deletes or changes your files.
+- It never touches a file unless you tell it to: there's no automatic
+  cleanup, and nothing is changed except by copy, move and delete.
+- It can't rename files or edit them. That's not there yet.
 - No accounts, no sync, no cloud, nothing leaves your phone.
 - Android only for now. There's no iPhone version available.
 - On Android 11 and newer it needs the **All files access** permission to see
   your folders. The app asks for it the first time; it's one switch in the
   system settings. On Android 10 and older it asks for the usual storage
   permission instead.
+- **SD cards on Android 10 and older.** Android only lets an app change files
+  on an SD card through a folder you choose yourself. The first time you copy,
+  move or delete there, the app explains it and opens Android's folder picker:
+  choose the SD card's main folder and tap "Use this folder". Android 11 and
+  newer don't need this. If the app asks again after a restart, repeat it.
 - The Storage tab only counts what the app is allowed to read, so its numbers
   can be a little different from Android's own.
 

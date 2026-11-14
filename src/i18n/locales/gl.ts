@@ -5,6 +5,7 @@ export const gl: Messages = {
 	"common.cancel": "Cancelar",
 	"common.continue": "Continuar",
 	"common.done": "Feito",
+	"common.close": "Pechar",
 
 	// tabs
 	"tab.files": "Ficheiros",
@@ -32,6 +33,52 @@ export const gl: Messages = {
 	"files.noApp":
 		"Ningunha app deste teléfono pode abrir este tipo de ficheiro.",
 	"files.openError": "Algo saíu mal ao abrilo.",
+
+	// selecting
+	"select.count": "{n} seleccionados",
+	"select.cancel": "Cancelar a selección",
+	"select.all": "Seleccionar todo",
+
+	// actions
+	"action.copy": "Copiar",
+	"action.move": "Mover",
+	"action.delete": "Eliminar",
+	"clip.copy": "Copiar: {n}",
+	"clip.move": "Mover: {n}",
+	"clip.paste": "Pegar aquí",
+
+	// delete
+	"delete.title": "Eliminar definitivamente?",
+	"delete.body":
+		"Seleccionados: {n}. Eliminaranse de forma permanente e non se poderán recuperar.",
+
+	// working
+	"op.copying": "Copiando…",
+	"op.moving": "Movendo…",
+	"op.deleting": "Eliminando…",
+	"op.progress": "{done} de {total}",
+	"op.stop": "Deter",
+	"op.problems": "Rematado, con problemas",
+	"op.stopped": "Detido",
+	"op.completed": "Completados: {n}",
+	"op.notDone": "Non se puido:",
+	"op.more": "…e {n} máis",
+	"op.cantTitle": "Non se pode facer",
+
+	// problems
+	"op.needWrite":
+		"Para copiar, mover ou eliminar ficheiros, permite que a app acceda ao teu almacenamento.",
+	"op.err.itself": "Un cartafol non pode ir dentro de si mesmo.",
+	"op.err.sd": "Sen acceso á tarxeta SD.",
+	"op.err.other": "Algo saíu mal.",
+
+	// sd card
+	"sd.title": "Permitir o acceso á tarxeta SD",
+	"sd.body":
+		"Android só deixa que as apps cambien ficheiros dunha tarxeta SD cando o permites. Na seguinte pantalla escolle o cartafol principal da tarxeta SD e toca «Usar este cartafol». Só terás que facelo unha vez.",
+	"sd.choose": "Escoller cartafol",
+	"sd.wrong":
+		"Ese non é o cartafol principal da tarxeta SD. Téntao de novo e escolle o nivel superior.",
 
 	// quick places
 	"place.internal": "Almacenamento interno",

@@ -14,12 +14,25 @@ type Props = {
 	/** A line to show instead of the size and date (search results: where it was found). */
 	subtitle?: string;
 	onPress: (entry: Entry) => void;
+	/** Holding the row: starts selecting, or ticks/unticks it while selecting. */
+	onLongPress?: (entry: Entry) => void;
+	/** Files are being selected: every row shows a tick circle instead of the arrow. */
+	selecting?: boolean;
+	/** This row is ticked. */
+	selected?: boolean;
 };
 
 const SIZE = 44;
 
 /** One file or folder, drawn like a card of the feed. */
-function FileRow({ entry, subtitle, onPress }: Props) {
+function FileRow({
+	entry,
+	subtitle,
+	onPress,
+	onLongPress,
+	selecting = false,
+	selected = false,
+}: Props) {
 	const theme = useTheme();
 	const { t, locale } = useI18n();
 	const s = useMemo(() => makeStyles(theme), [theme]);
@@ -43,8 +56,14 @@ function FileRow({ entry, subtitle, onPress }: Props) {
 	return (
 		<Pressable
 			accessibilityRole="button"
+			accessibilityState={{ selected }}
 			onPress={() => onPress(entry)}
-			style={({ pressed }) => [s.card, pressed && s.pressed]}
+			onLongPress={onLongPress ? () => onLongPress(entry) : undefined}
+			style={({ pressed }) => [
+				s.card,
+				selected && s.cardSelected,
+				pressed && s.pressed,
+			]}
 		>
 			<View style={[s.icon, entry.isDirectory ? s.iconFolder : s.iconFile]}>
 				{entry.kind === "image" && canPreview(entry.name) ? (
@@ -74,12 +93,20 @@ function FileRow({ entry, subtitle, onPress }: Props) {
 					</Text>
 				)}
 			</View>
-			{entry.isDirectory && (
+			{selecting ? (
 				<Ionicons
-					name="chevron-forward"
-					size={20}
-					color={theme.text + "99"}
+					name={selected ? "checkmark-circle" : "ellipse-outline"}
+					size={24}
+					color={selected ? theme.accent : theme.text + "66"}
 				/>
+			) : (
+				entry.isDirectory && (
+					<Ionicons
+						name="chevron-forward"
+						size={20}
+						color={theme.text + "99"}
+					/>
+				)
 			)}
 		</Pressable>
 	);
@@ -95,9 +122,13 @@ const makeStyles = (t: Theme) =>
 			gap: 12,
 			backgroundColor: t.card,
 			borderRadius: 8,
-			padding: 10,
+			// 8 + the 2 of the border: the card keeps its size when it gets ticked
+			padding: 8,
+			borderWidth: 2,
+			borderColor: "transparent",
 			marginBottom: 10,
 		},
+		cardSelected: { borderColor: t.accent },
 		pressed: { opacity: 0.7 },
 		icon: {
 			width: SIZE,

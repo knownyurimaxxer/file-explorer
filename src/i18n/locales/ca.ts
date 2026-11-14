@@ -5,6 +5,7 @@ export const ca: Messages = {
 	"common.cancel": "Cancel·la",
 	"common.continue": "Continua",
 	"common.done": "Fet",
+	"common.close": "Tanca",
 
 	// tabs
 	"tab.files": "Fitxers",
@@ -31,6 +32,52 @@ export const ca: Messages = {
 	"files.openFailedTitle": "No s'ha pogut obrir el fitxer",
 	"files.noApp": "Cap app d'aquest telèfon pot obrir aquest tipus de fitxer.",
 	"files.openError": "Alguna cosa ha anat malament en obrir-lo.",
+
+	// selecting
+	"select.count": "{n} seleccionats",
+	"select.cancel": "Cancel·la la selecció",
+	"select.all": "Selecciona-ho tot",
+
+	// actions
+	"action.copy": "Copia",
+	"action.move": "Mou",
+	"action.delete": "Elimina",
+	"clip.copy": "Copia: {n}",
+	"clip.move": "Mou: {n}",
+	"clip.paste": "Enganxa aquí",
+
+	// delete
+	"delete.title": "Vols eliminar-ho definitivament?",
+	"delete.body":
+		"Seleccionats: {n}. S'eliminaran de manera permanent i no es podran recuperar.",
+
+	// working
+	"op.copying": "Copiant…",
+	"op.moving": "Movent…",
+	"op.deleting": "Eliminant…",
+	"op.progress": "{done} de {total}",
+	"op.stop": "Atura",
+	"op.problems": "Acabat, amb problemes",
+	"op.stopped": "Aturat",
+	"op.completed": "Completats: {n}",
+	"op.notDone": "No s'ha pogut:",
+	"op.more": "…i {n} més",
+	"op.cantTitle": "No es pot fer",
+
+	// problems
+	"op.needWrite":
+		"Per copiar, moure o eliminar fitxers, permet que l'app accedeixi al teu emmagatzematge.",
+	"op.err.itself": "Una carpeta no pot anar dins d'ella mateixa.",
+	"op.err.sd": "Sense accés a la targeta SD.",
+	"op.err.other": "Alguna cosa ha anat malament.",
+
+	// sd card
+	"sd.title": "Permet l'accés a la targeta SD",
+	"sd.body":
+		"Android només deixa que les apps canviïn fitxers d'una targeta SD quan ho permets. A la pantalla següent tria la carpeta principal de la targeta SD i toca «Utilitza aquesta carpeta». Només ho hauràs de fer una vegada.",
+	"sd.choose": "Tria la carpeta",
+	"sd.wrong":
+		"Aquesta no és la carpeta principal de la targeta SD. Torna-ho a provar i tria el nivell superior.",
 
 	// quick places
 	"place.internal": "Emmagatzematge intern",

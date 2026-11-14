@@ -10,6 +10,7 @@ export const en = {
 	"common.cancel": "Cancel",
 	"common.continue": "Continue",
 	"common.done": "Done",
+	"common.close": "Close",
 
 	// tabs
 	"tab.files": "Files",
@@ -35,6 +36,52 @@ export const en = {
 	"files.openFailedTitle": "Couldn't open the file",
 	"files.noApp": "No app on this phone can open this type of file.",
 	"files.openError": "Something went wrong while opening it.",
+
+	// selecting
+	"select.count": "{n} selected",
+	"select.cancel": "Cancel selection",
+	"select.all": "Select all",
+
+	// actions
+	"action.copy": "Copy",
+	"action.move": "Move",
+	"action.delete": "Delete",
+	"clip.copy": "Copy: {n}",
+	"clip.move": "Move: {n}",
+	"clip.paste": "Paste here",
+
+	// delete
+	"delete.title": "Delete for good?",
+	"delete.body":
+		"Selected: {n}. They'll be deleted permanently and can't be recovered.",
+
+	// working
+	"op.copying": "Copying…",
+	"op.moving": "Moving…",
+	"op.deleting": "Deleting…",
+	"op.progress": "{done} of {total}",
+	"op.stop": "Stop",
+	"op.problems": "Finished, with problems",
+	"op.stopped": "Stopped",
+	"op.completed": "Completed: {n}",
+	"op.notDone": "Not done:",
+	"op.more": "…and {n} more",
+	"op.cantTitle": "Can't do that",
+
+	// problems
+	"op.needWrite":
+		"To copy, move or delete files, allow this app to access your storage.",
+	"op.err.itself": "A folder can't go inside itself.",
+	"op.err.sd": "No access to the SD card.",
+	"op.err.other": "Something went wrong.",
+
+	// sd card
+	"sd.title": "Allow access to the SD card",
+	"sd.body":
+		"Android only lets apps change files on an SD card once you allow it. On the next screen, choose the SD card's main folder and tap “Use this folder”. You only need to do this once.",
+	"sd.choose": "Choose folder",
+	"sd.wrong":
+		"That isn't the main folder of the SD card. Try again and choose the top level.",
 
 	// quick places
 	"place.internal": "Internal storage",

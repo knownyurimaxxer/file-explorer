@@ -5,6 +5,7 @@ export const eu: Messages = {
 	"common.cancel": "Utzi",
 	"common.continue": "Jarraitu",
 	"common.done": "Eginda",
+	"common.close": "Itxi",
 
 	// tabs
 	"tab.files": "Fitxategiak",
@@ -32,6 +33,52 @@ export const eu: Messages = {
 	"files.noApp":
 		"Telefono honetako aplikazio batek ere ezin du fitxategi mota hau ireki.",
 	"files.openError": "Zerbait gaizki atera da irekitzean.",
+
+	// selecting
+	"select.count": "{n} hautatuta",
+	"select.cancel": "Utzi hautapena",
+	"select.all": "Hautatu dena",
+
+	// actions
+	"action.copy": "Kopiatu",
+	"action.move": "Mugitu",
+	"action.delete": "Ezabatu",
+	"clip.copy": "Kopiatu: {n}",
+	"clip.move": "Mugitu: {n}",
+	"clip.paste": "Itsatsi hemen",
+
+	// delete
+	"delete.title": "Betiko ezabatu?",
+	"delete.body":
+		"Hautatuta: {n}. Betiko ezabatuko dira eta ezin izango dira berreskuratu.",
+
+	// working
+	"op.copying": "Kopiatzen…",
+	"op.moving": "Mugitzen…",
+	"op.deleting": "Ezabatzen…",
+	"op.progress": "{done} / {total}",
+	"op.stop": "Gelditu",
+	"op.problems": "Amaituta, arazoekin",
+	"op.stopped": "Geldituta",
+	"op.completed": "Eginda: {n}",
+	"op.notDone": "Ezin izan da:",
+	"op.more": "…eta beste {n}",
+	"op.cantTitle": "Ezin da egin",
+
+	// problems
+	"op.needWrite":
+		"Fitxategiak kopiatzeko, mugitzeko edo ezabatzeko, eman aplikazioari zure biltegiratzera sartzeko baimena.",
+	"op.err.itself": "Karpeta bat ezin da bere barruan sartu.",
+	"op.err.sd": "Ez dago SD txartelera sartzeko baimenik.",
+	"op.err.other": "Zerbait gaizki atera da.",
+
+	// sd card
+	"sd.title": "Eman SD txartelera sartzeko baimena",
+	"sd.body":
+		"Androidek SD txartel bateko fitxategiak aldatzeko aukera ematen die aplikazioei baimena eman ondoren soilik. Hurrengo pantailan, aukeratu SD txartelaren karpeta nagusia eta sakatu «Erabili karpeta hau». Behin bakarrik egin beharko duzu.",
+	"sd.choose": "Aukeratu karpeta",
+	"sd.wrong":
+		"Hori ez da SD txartelaren karpeta nagusia. Saiatu berriro eta aukeratu goiko maila.",
 
 	// quick places
 	"place.internal": "Barne biltegiratzea",

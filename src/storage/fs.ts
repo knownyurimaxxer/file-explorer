@@ -70,9 +70,7 @@ export function readMeta(uri: string): FileMeta {
 		};
 		meta = {
 			size: typeof info.size === "number" ? info.size : null,
-			modifiedAt: info.modificationTime
-				? toMs(info.modificationTime)
-				: null,
+			modifiedAt: info.modificationTime ? toMs(info.modificationTime) : null,
 		};
 	} catch {
 		/* no details for this one */
@@ -115,8 +113,7 @@ export function findPlaces(): Place[] {
 	}
 	for (const p of PLACE_FOLDERS) {
 		const uri = `${INTERNAL_ROOT}/${p.folder}`;
-		if (folderExists(uri))
-			places.push({ id: p.id, labelKey: p.label, uri });
+		if (folderExists(uri)) places.push({ id: p.id, labelKey: p.label, uri });
 	}
 	return places;
 }
@@ -164,14 +161,11 @@ export async function openFile(uri: string, name: string): Promise<OpenResult> {
 	const problems: string[] = [];
 	for (const data of candidates) {
 		try {
-			await IntentLauncher.startActivityAsync(
-				"android.intent.action.VIEW",
-				{
-					data,
-					type,
-					flags: 1, // FLAG_GRANT_READ_URI_PERMISSION
-				},
-			);
+			await IntentLauncher.startActivityAsync("android.intent.action.VIEW", {
+				data,
+				type,
+				flags: 1, // FLAG_GRANT_READ_URI_PERMISSION
+			});
 			return { status: "ok" };
 		} catch (e) {
 			const message = String(e instanceof Error ? e.message : e);
@@ -218,10 +212,26 @@ export async function openAllFilesAccessSettings(): Promise<void> {
 	);
 }
 
+/**
+ * Android 10 and older: the ordinary "write storage" permission, needed to copy,
+ * move and delete. True when granted (and on Android 11+, where "All files
+ * access" covers it).
+ */
+export async function requestLegacyWriteAccess(): Promise<boolean> {
+	if (Platform.OS !== "android" || Number(Platform.Version) >= 30) return true;
+	try {
+		const result = await PermissionsAndroid.request(
+			PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+		);
+		return result === PermissionsAndroid.RESULTS.GRANTED;
+	} catch {
+		return false;
+	}
+}
+
 /** Android 10 and older: the ordinary "read storage" permission. True when granted. */
 export async function requestLegacyReadAccess(): Promise<boolean> {
-	if (Platform.OS !== "android" || Number(Platform.Version) >= 30)
-		return true;
+	if (Platform.OS !== "android" || Number(Platform.Version) >= 30) return true;
 	try {
 		const result = await PermissionsAndroid.request(
 			PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,

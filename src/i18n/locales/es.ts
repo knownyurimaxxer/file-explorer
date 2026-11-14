@@ -5,6 +5,7 @@ export const es: Messages = {
 	"common.cancel": "Cancelar",
 	"common.continue": "Continuar",
 	"common.done": "Listo",
+	"common.close": "Cerrar",
 
 	// tabs
 	"tab.files": "Archivos",
@@ -32,6 +33,52 @@ export const es: Messages = {
 	"files.noApp":
 		"Ninguna app de este teléfono puede abrir este tipo de archivo.",
 	"files.openError": "Algo salió mal al abrirlo.",
+
+	// selecting
+	"select.count": "{n} seleccionados",
+	"select.cancel": "Cancelar selección",
+	"select.all": "Seleccionar todo",
+
+	// actions
+	"action.copy": "Copiar",
+	"action.move": "Mover",
+	"action.delete": "Eliminar",
+	"clip.copy": "Copiar: {n}",
+	"clip.move": "Mover: {n}",
+	"clip.paste": "Pegar aquí",
+
+	// delete
+	"delete.title": "¿Eliminar definitivamente?",
+	"delete.body":
+		"Seleccionados: {n}. Se eliminarán de forma permanente y no se podrán recuperar.",
+
+	// working
+	"op.copying": "Copiando…",
+	"op.moving": "Moviendo…",
+	"op.deleting": "Eliminando…",
+	"op.progress": "{done} de {total}",
+	"op.stop": "Detener",
+	"op.problems": "Terminado, con problemas",
+	"op.stopped": "Detenido",
+	"op.completed": "Completados: {n}",
+	"op.notDone": "No se pudo:",
+	"op.more": "…y {n} más",
+	"op.cantTitle": "No se puede hacer",
+
+	// problems
+	"op.needWrite":
+		"Para copiar, mover o eliminar archivos, permite que la app acceda a tu almacenamiento.",
+	"op.err.itself": "Una carpeta no puede ir dentro de sí misma.",
+	"op.err.sd": "Sin acceso a la tarjeta SD.",
+	"op.err.other": "Algo salió mal.",
+
+	// sd card
+	"sd.title": "Permitir acceso a la tarjeta SD",
+	"sd.body":
+		"Android solo deja que las apps cambien archivos de una tarjeta SD cuando lo permites. En la siguiente pantalla elige la carpeta principal de la tarjeta SD y toca «Usar esta carpeta». Solo tendrás que hacerlo una vez.",
+	"sd.choose": "Elegir carpeta",
+	"sd.wrong":
+		"Esa no es la carpeta principal de la tarjeta SD. Inténtalo de nuevo y elige el nivel superior.",
 
 	// quick places
 	"place.internal": "Almacenamiento interno",
