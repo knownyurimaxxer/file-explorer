@@ -71,7 +71,10 @@ const failureOf = (name: string, e: unknown): OpFailure =>
 		: {
 				name,
 				code: "other",
-				detail: String(e instanceof Error ? e.message : e).slice(0, 200),
+				detail: String(e instanceof Error ? e.message : e).slice(
+					0,
+					200,
+				),
 			};
 
 const yieldToUi = () => new Promise<void>((resolve) => setTimeout(resolve, 0));
@@ -107,14 +110,14 @@ async function streamCopy(srcUri: string, out: File): Promise<void> {
 	try {
 		dst = out.open(FileMode.Truncate);
 		for (;;) {
-			const bytes = src.readBytes(CHUNK);
+			const bytes = await src.readBytes(CHUNK);
 			if (bytes.length === 0) break;
-			dst.writeBytes(bytes);
+			await dst.writeBytes(bytes);
 			await yieldToUi(); // the screen stays alive while a big file goes over
 		}
 	} finally {
-		src.close();
-		dst?.close();
+		await src.close();
+		await dst?.close();
 	}
 }
 
