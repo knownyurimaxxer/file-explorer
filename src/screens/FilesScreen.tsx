@@ -27,6 +27,7 @@ import Chip from "../components/Chip";
 import FileRow from "../components/FileRow";
 import OperationModal from "../components/OperationModal";
 import SelectionHeader from "../components/SelectionHeader";
+import SortModal from "../components/SortModal";
 import { useI18n } from "../i18n/I18nContext";
 import { useBrowser } from "../hooks/useBrowser";
 import { useFileOps } from "../hooks/useFileOps";
@@ -42,6 +43,7 @@ import type { Entry, SearchHit, Theme } from "../types";
 import { feedback } from "../utils/feedback";
 import { formatCount, readableOn } from "../utils/format";
 import { crumbsBelow, isInside, relativePath, sameUri } from "../utils/paths";
+import type { SortBy } from "../utils/sorting";
 
 type Props = {
 	browser: ReturnType<typeof useBrowser>;
@@ -49,6 +51,10 @@ type Props = {
 	active: boolean;
 	/** Show files and folders whose name starts with a dot (in the search; the folder list is handled by `browser`). */
 	showHidden: boolean;
+	/** How the folder list is ordered (the ordering itself is done by `browser`). */
+	sortBy: SortBy;
+	sortDesc: boolean;
+	onSortChange: (by: SortBy, desc: boolean) => void;
 	accessAsked: boolean;
 	onAccessAsked: () => void;
 	onOpenSettings: () => void;
@@ -61,6 +67,9 @@ export default function FilesScreen({
 	browser,
 	active,
 	showHidden,
+	sortBy,
+	sortDesc,
+	onSortChange,
 	accessAsked,
 	onAccessAsked,
 	onOpenSettings,
@@ -74,6 +83,7 @@ export default function FilesScreen({
 	const listRef = useRef<FlatList<Entry | SearchHit>>(null);
 	const crumbsRef = useRef<ComponentRef<typeof ScrollView>>(null);
 	const [query, setQuery] = useState("");
+	const [sortOpen, setSortOpen] = useState(false);
 	const [refreshing, setRefreshing] = useState(false);
 
 	const { uri, root, places, entries, error, canGoUp } = browser;
@@ -436,6 +446,18 @@ export default function FilesScreen({
 						</View>
 					))}
 				</ScrollView>
+				<Pressable
+					accessibilityRole="button"
+					accessibilityLabel={t("sort.button")}
+					hitSlop={8}
+					onPress={() => {
+						feedback("action");
+						setSortOpen(true);
+					}}
+					style={s.sortBtn}
+				>
+					<Ionicons name="swap-vertical" size={22} color={onBg} />
+				</Pressable>
 			</View>
 
 			<FlatList
@@ -491,6 +513,14 @@ export default function FilesScreen({
 					onCancel={ops.cancelClipboard}
 				/>
 			) : null}
+
+			<SortModal
+				visible={sortOpen}
+				sortBy={sortBy}
+				sortDesc={sortDesc}
+				onChange={onSortChange}
+				onClose={() => setSortOpen(false)}
+			/>
 
 			<OperationModal run={ops.run} onStop={ops.stop} onClose={ops.closeRun} />
 		</View>
@@ -553,6 +583,8 @@ const makeStyles = (t: Theme) =>
 			alignItems: "center",
 			justifyContent: "center",
 		},
+		// 10 + the icon button's 4 of padding: the icon sits 14 from the edge
+		sortBtn: { padding: 4, marginRight: 10 },
 		crumbs: { alignItems: "center", paddingRight: 14 },
 		crumbItem: { flexDirection: "row", alignItems: "center", gap: 2 },
 		crumb: {

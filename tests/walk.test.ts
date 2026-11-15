@@ -99,3 +99,48 @@ describe("walkTree", () => {
 		expect(yields).toBeGreaterThan(0);
 	});
 });
+
+describe("walkTree pacing", () => {
+	const BIG: WalkItem[] = Array.from({ length: 100 }, (_, i) => ({
+		name: `f${i}`,
+		uri: `/big/f${i}`,
+		isDirectory: false,
+	}));
+
+	// sliceMs 0 and a frozen clock: every check finds the slice used up, so it yields
+	const run = async (checkEvery?: number, stopAfter = Infinity) => {
+		let yields = 0;
+		let seen = 0;
+		await walkTree("/big", {
+			list: () => BIG,
+			isCancelled: () => seen >= stopAfter,
+			onItem: () => {
+				seen++;
+			},
+			sliceMs: 0,
+			now: () => 0,
+			yieldNow: async () => {
+				yields++;
+			},
+			checkEvery,
+		});
+		return { yields, seen };
+	};
+
+	it("looks at the clock every 64 files by default", async () => {
+		expect((await run()).yields).toBe(2); // after file 64, and at the end of the folder
+	});
+
+	it("looks as often as asked", async () => {
+		expect((await run(16)).yields).toBe(7); // after files 16, 32, 48, 64, 80, 96, and the end
+	});
+
+	it("notices a Stop within `checkEvery` files", async () => {
+		expect((await run(16, 5)).seen).toBe(16);
+		expect((await run(undefined, 5)).seen).toBe(64);
+	});
+
+	it("never checks less than every file", async () => {
+		expect((await run(0)).yields).toBe(101);
+	});
+});

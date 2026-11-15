@@ -80,6 +80,21 @@ export const eu: Messages = {
 	"sd.wrong":
 		"Hori ez da SD txartelaren karpeta nagusia. Saiatu berriro eta aukeratu goiko maila.",
 
+	// sorting
+	"sort.button": "Ordenatu",
+	"sort.title": "Ordenatu fitxategiak",
+	"sort.by": "Ordenatzeko irizpidea",
+	"sort.order": "Ordena",
+	"sort.name": "Izena",
+	"sort.date": "Aldatze-data",
+	"sort.size": "Tamaina",
+	"sort.nameAsc": "A-tik Z-ra",
+	"sort.nameDesc": "Z-tik A-ra",
+	"sort.dateAsc": "Zaharrenak lehenengo",
+	"sort.dateDesc": "Berrienak lehenengo",
+	"sort.sizeAsc": "Txikienak lehenengo",
+	"sort.sizeDesc": "Handienak lehenengo",
+
 	// quick places
 	"place.internal": "Barne biltegiratzea",
 	"place.sd": "SD txartela",

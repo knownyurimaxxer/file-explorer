@@ -80,6 +80,21 @@ export const es: Messages = {
 	"sd.wrong":
 		"Esa no es la carpeta principal de la tarjeta SD. Inténtalo de nuevo y elige el nivel superior.",
 
+	// sorting
+	"sort.button": "Ordenar",
+	"sort.title": "Ordenar archivos",
+	"sort.by": "Ordenar por",
+	"sort.order": "Orden",
+	"sort.name": "Nombre",
+	"sort.date": "Fecha de modificación",
+	"sort.size": "Tamaño",
+	"sort.nameAsc": "De la A a la Z",
+	"sort.nameDesc": "De la Z a la A",
+	"sort.dateAsc": "Más antiguos primero",
+	"sort.dateDesc": "Más recientes primero",
+	"sort.sizeAsc": "Más pequeños primero",
+	"sort.sizeDesc": "Más grandes primero",
+
 	// quick places
 	"place.internal": "Almacenamiento interno",
 	"place.sd": "Tarjeta SD",

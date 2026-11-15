@@ -4,6 +4,7 @@ import { INTERNAL_ROOT } from "../constants";
 import { clearMetaCache, findPlaces, listFolder } from "../storage/fs";
 import type { Entry, Place } from "../types";
 import { isInside, parentUri, sameUri, trimSlash } from "../utils/paths";
+import type { SortBy } from "../utils/sorting";
 
 type Listing = {
 	entries: Entry[];
@@ -18,7 +19,11 @@ type Listing = {
  * read again when the app comes back to the foreground (the person may have
  * just allowed access, or added files from another app) and on request.
  */
-export function useBrowser(showHidden: boolean) {
+export function useBrowser(
+	showHidden: boolean,
+	sortBy: SortBy,
+	sortDesc: boolean,
+) {
 	const [uri, setUri] = useState(INTERNAL_ROOT);
 	const [listing, setListing] = useState<Listing>({
 		entries: [],
@@ -35,14 +40,14 @@ export function useBrowser(showHidden: boolean) {
 		clearMetaCache();
 		try {
 			setListing({
-				entries: listFolder(uri, showHidden),
+				entries: listFolder(uri, showHidden, { by: sortBy, desc: sortDesc }),
 				error: false,
 				loaded: true,
 			});
 		} catch {
 			setListing({ entries: [], error: true, loaded: true });
 		}
-	}, [uri, tick, showHidden]);
+	}, [uri, tick, showHidden, sortBy, sortDesc]);
 
 	useEffect(() => {
 		const sub = AppState.addEventListener("change", (state) => {

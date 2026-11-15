@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { INTERNAL_ROOT, SCAN_REFRESH_MS } from "../constants";
-import { listRaw } from "../storage/fs";
+import { INTERNAL_ROOT, SCAN_PACE, SCAN_REFRESH_MS } from "../constants";
+import { listForScan } from "../storage/fs";
 import { kindOf } from "../utils/fileTypes";
 import {
 	addFile,
@@ -22,6 +22,14 @@ export type ScanState = {
 	/** How many folders couldn't be read. */
 	unreadable: number;
 };
+
+/** A rest between bursts of work, so the screen and the rest of the phone get a turn. */
+const pause = () =>
+	new Promise<void>((resolve) => setTimeout(resolve, SCAN_PACE.pauseMs));
+
+/** A file's size: already known, or read now (that is the slow part, so it's done here, in the paced loop). */
+const sizeOf = (item: WalkItem): number | undefined =>
+	item.readSize ? item.readSize() : item.size;
 
 const EMPTY: ScanState = {
 	status: "idle",
@@ -85,7 +93,7 @@ export function useStorageScan() {
 
 		let top: WalkItem[];
 		try {
-			top = listRaw(INTERNAL_ROOT, true);
+			top = listForScan(INTERNAL_ROOT);
 		} catch {
 			setState({ ...EMPTY, status: "done", unreadable: 1 });
 			return;
@@ -94,9 +102,10 @@ export function useStorageScan() {
 		for (const entry of top) {
 			if (token.stop) break;
 			if (!entry.isDirectory) {
-				addFile(totals, kindOf(entry.name, false), entry.size);
+				const size = sizeOf(entry);
+				addFile(totals, kindOf(entry.name, false), size);
 				loose.files += 1;
-				loose.bytes += entry.size ?? 0;
+				loose.bytes += size ?? 0;
 				continue;
 			}
 			const usage: FolderUsage = {
@@ -107,16 +116,20 @@ export function useStorageScan() {
 			};
 			folders.push(usage);
 			await walkTree(entry.uri, {
-				list: (uri) => listRaw(uri, true),
+				list: listForScan,
 				isCancelled: () => token.stop,
+				sliceMs: SCAN_PACE.sliceMs,
+				checkEvery: SCAN_PACE.checkEvery,
+				yieldNow: pause,
 				onUnreadable: () => {
 					unreadable += 1;
 				},
 				onItem: (item) => {
 					if (item.isDirectory) return;
-					addFile(totals, kindOf(item.name, false), item.size);
+					const size = sizeOf(item);
+					addFile(totals, kindOf(item.name, false), size);
 					usage.files += 1;
-					usage.bytes += item.size ?? 0;
+					usage.bytes += size ?? 0;
 					flush();
 				},
 			});

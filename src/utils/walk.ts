@@ -10,8 +10,13 @@ export type WalkItem = {
 	name: string;
 	uri: string;
 	isDirectory: boolean;
-	/** Size in bytes, when the lister was asked for it (files only). */
+	/** Size in bytes, when the lister already knows it (files only). */
 	size?: number;
+	/**
+	 * Reads the size when called (files only). A lister that has it hands this
+	 * out instead of reading every size up front, so the caller can pace the work.
+	 */
+	readSize?: () => number;
 };
 
 export type WalkOptions = {
@@ -23,6 +28,8 @@ export type WalkOptions = {
 	/** Called with the address of every folder that couldn't be listed. */
 	onUnreadable?: (uri: string) => void;
 	sliceMs?: number;
+	/** Looks at the clock (and the cancel flag) after this many entries. 64 by default. */
+	checkEvery?: number;
 	maxDepth?: number;
 	/** Gives the thread back. Replaced in tests. */
 	yieldNow?: () => Promise<void>;
@@ -38,6 +45,7 @@ export async function walkTree(
 ): Promise<boolean> {
 	const sliceMs = o.sliceMs ?? WALK.sliceMs;
 	const maxDepth = o.maxDepth ?? WALK.maxDepth;
+	const checkEvery = Math.max(1, o.checkEvery ?? 64);
 	const yieldNow = o.yieldNow ?? defaultYield;
 	const now = o.now ?? Date.now;
 
@@ -71,7 +79,7 @@ export async function walkTree(
 			o.onItem(item, uri, depth);
 			if (item.isDirectory && depth + 1 < maxDepth)
 				queue.push({ uri: item.uri, depth: depth + 1 });
-			if ((i & 63) === 63) {
+			if ((i + 1) % checkEvery === 0) {
 				if (o.isCancelled()) return false;
 				await breathe();
 			}

@@ -7,6 +7,7 @@ export type Theme = {
 
 import type { HapticTrigger } from "./constants";
 import type { MessageKey } from "./i18n/locales/en";
+import type { SortBy } from "./utils/sorting";
 
 export type Settings = {
 	theme: Theme;
@@ -14,6 +15,10 @@ export type Settings = {
 	language: string;
 	/** Show files and folders whose name starts with a dot. Off by default. */
 	showHidden: boolean;
+	/** What the Files tab sorts a folder by. Name by default. */
+	sortBy: SortBy;
+	/** Sort the other way round (Z to A, newest first, largest first). Off by default. */
+	sortDesc: boolean;
 	/** Master switch for vibration feedback. Off by default. */
 	hapticsEnabled: boolean;
 	/** Which haptic triggers are on (only used while hapticsEnabled is on). */

@@ -31,7 +31,11 @@ export default function MainScreen({
 	const t = useT();
 	const insets = useSafeAreaInsets();
 	const s = useMemo(() => makeStyles(theme), [theme]);
-	const browser = useBrowser(settings.showHidden);
+	const browser = useBrowser(
+		settings.showHidden,
+		settings.sortBy,
+		settings.sortDesc,
+	);
 	const [tab, setTab] = useState<TabId>("files");
 	const [settingsOpen, setSettingsOpen] = useState(false);
 
@@ -93,6 +97,12 @@ export default function MainScreen({
 					browser={browser}
 					active={tab === "files" && !settingsOpen}
 					showHidden={settings.showHidden}
+					sortBy={settings.sortBy}
+					sortDesc={settings.sortDesc}
+					onSortChange={(by, desc) => {
+						updateSetting("sortBy", by);
+						updateSetting("sortDesc", desc);
+					}}
 					accessAsked={settings.accessAsked}
 					onAccessAsked={onAccessAsked}
 					onOpenSettings={openSettings}

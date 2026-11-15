@@ -80,6 +80,21 @@ export const gl: Messages = {
 	"sd.wrong":
 		"Ese non é o cartafol principal da tarxeta SD. Téntao de novo e escolle o nivel superior.",
 
+	// sorting
+	"sort.button": "Ordenar",
+	"sort.title": "Ordenar ficheiros",
+	"sort.by": "Ordenar por",
+	"sort.order": "Orde",
+	"sort.name": "Nome",
+	"sort.date": "Data de modificación",
+	"sort.size": "Tamaño",
+	"sort.nameAsc": "De A a Z",
+	"sort.nameDesc": "De Z a A",
+	"sort.dateAsc": "Máis antigos primeiro",
+	"sort.dateDesc": "Máis recentes primeiro",
+	"sort.sizeAsc": "Máis pequenos primeiro",
+	"sort.sizeDesc": "Máis grandes primeiro",
+
 	// quick places
 	"place.internal": "Almacenamento interno",
 	"place.sd": "Tarxeta SD",

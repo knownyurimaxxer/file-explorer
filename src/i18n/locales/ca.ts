@@ -79,6 +79,21 @@ export const ca: Messages = {
 	"sd.wrong":
 		"Aquesta no és la carpeta principal de la targeta SD. Torna-ho a provar i tria el nivell superior.",
 
+	// sorting
+	"sort.button": "Ordena",
+	"sort.title": "Ordena els fitxers",
+	"sort.by": "Ordena per",
+	"sort.order": "Ordre",
+	"sort.name": "Nom",
+	"sort.date": "Data de modificació",
+	"sort.size": "Mida",
+	"sort.nameAsc": "De la A a la Z",
+	"sort.nameDesc": "De la Z a la A",
+	"sort.dateAsc": "Més antics primer",
+	"sort.dateDesc": "Més recents primer",
+	"sort.sizeAsc": "Més petits primer",
+	"sort.sizeDesc": "Més grans primer",
+
 	// quick places
 	"place.internal": "Emmagatzematge intern",
 	"place.sd": "Targeta SD",

@@ -1,6 +1,9 @@
 import type { MessageKey } from "./i18n/locales/en";
 import { Settings, Theme } from "./types";
+import { DEFAULT_SORT } from "./utils/sorting";
 
+/** The name shown in the app (the launcher name itself is in app.json). */
+export const APP_NAME = "File Explorer";
 /** Same as android.package in app.json: needed to open this app's own settings page. */
 export const APP_ID = "com.knownyurimaxxer.fileexplorer";
 
@@ -30,6 +33,13 @@ export const SEARCH = { maxResults: 300, debounceMs: 250 } as const;
 export const WALK = { sliceMs: 12, maxDepth: 40 } as const;
 /** Storage scan: how often the numbers on screen are refreshed. */
 export const SCAN_REFRESH_MS = 250;
+/**
+ * Storage scan: work in short bursts with a rest in between, so the app and the
+ * phone stay responsive (a full phone has hundreds of thousands of files). The
+ * scan takes about twice as long this way. `checkEvery` is how many files are
+ * counted between looks at the clock and the Stop button.
+ */
+export const SCAN_PACE = { sliceMs: 8, pauseMs: 8, checkEvery: 16 } as const;
 
 export const PRESETS: Record<string, Theme> = {
 	Navy: {
@@ -150,6 +160,8 @@ export const DEFAULT_SETTINGS: Settings = {
 	theme: PRESETS["Navy"],
 	language: "system",
 	showHidden: false,
+	sortBy: DEFAULT_SORT.by,
+	sortDesc: DEFAULT_SORT.desc,
 	hapticsEnabled: false,
 	haptics: Object.fromEntries(
 		HAPTIC_TRIGGERS.map((k) => [k, true]),

@@ -83,6 +83,21 @@ export const en = {
 	"sd.wrong":
 		"That isn't the main folder of the SD card. Try again and choose the top level.",
 
+	// sorting
+	"sort.button": "Sort",
+	"sort.title": "Sort files",
+	"sort.by": "Sort by",
+	"sort.order": "Order",
+	"sort.name": "Name",
+	"sort.date": "Date modified",
+	"sort.size": "Size",
+	"sort.nameAsc": "A to Z",
+	"sort.nameDesc": "Z to A",
+	"sort.dateAsc": "Oldest first",
+	"sort.dateDesc": "Newest first",
+	"sort.sizeAsc": "Smallest first",
+	"sort.sizeDesc": "Largest first",
+
 	// quick places
 	"place.internal": "Internal storage",
 	"place.sd": "SD card",

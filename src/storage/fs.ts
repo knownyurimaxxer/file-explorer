@@ -18,39 +18,71 @@ import type { Entry, Place } from "../types";
 import { kindOf, mimeOf } from "../utils/fileTypes";
 import { visibleOnly } from "../utils/hidden";
 import { providerUriFor } from "../utils/openUri";
-import { compareEntries } from "../utils/search";
+import { DEFAULT_SORT, sortEntries, type SortOrder } from "../utils/sorting";
 import type { WalkItem } from "../utils/walk";
 
 /** What one entry of a folder looks like straight off the disk. */
-export function listRaw(uri: string, withSizes = false): WalkItem[] {
-	const dir = new Directory(uri);
-	return dir.list().map((entry): WalkItem => {
-		const isDirectory = entry instanceof Directory;
-		let size: number | undefined;
-		if (withSizes && !isDirectory) {
-			try {
-				size = ((entry as File).info() as { size?: number }).size ?? 0;
-			} catch {
-				size = 0;
-			}
+export function listRaw(uri: string): WalkItem[] {
+	return new Directory(uri).list().map(
+		(entry): WalkItem => ({
+			name: entry.name,
+			uri: entry.uri,
+			isDirectory: entry instanceof Directory,
+		}),
+	);
+}
+
+/** The size of a file in bytes (0 if it can't be read). The cheap property first, `info()` as a fallback. */
+function sizeOfFile(file: File): number {
+	try {
+		const direct = (file as unknown as { size?: unknown }).size;
+		if (typeof direct === "number") return direct;
+		return ((file.info() as { size?: number }).size ?? 0) as number;
+	} catch {
+		return 0;
+	}
+}
+
+/**
+ * Like `listRaw`, for the storage scan: a file's size is only read when its
+ * `readSize()` is called. Reading them all inside the listing meant one folder
+ * with tens of thousands of files froze the app until it was done.
+ */
+export function listForScan(uri: string): WalkItem[] {
+	return new Directory(uri).list().map((entry): WalkItem => {
+		if (entry instanceof Directory) {
+			return { name: entry.name, uri: entry.uri, isDirectory: true };
 		}
-		return { name: entry.name, uri: entry.uri, isDirectory, size };
+		const file = entry as File;
+		return {
+			name: file.name,
+			uri: file.uri,
+			isDirectory: false,
+			readSize: () => sizeOfFile(file),
+		};
 	});
 }
 
 /**
- * A folder's entries for the Files tab: folders first, then by name. Hidden
- * (dotted) names are left out unless `showHidden` is on. Throws if it can't be read.
+ * A folder's entries for the Files tab: folders first, then in the order asked
+ * for (name by default). Hidden (dotted) names are left out unless `showHidden`
+ * is on. Throws if it can't be read. Sorting by date or size reads the details
+ * of every file in the folder, so a very big folder takes a moment.
  */
-export function listFolder(uri: string, showHidden = false): Entry[] {
-	return visibleOnly(listRaw(uri), showHidden)
-		.map((e): Entry => ({
+export function listFolder(
+	uri: string,
+	showHidden = false,
+	sort: SortOrder = DEFAULT_SORT,
+): Entry[] {
+	const entries = visibleOnly(listRaw(uri), showHidden).map(
+		(e): Entry => ({
 			name: e.name,
 			uri: e.uri,
 			isDirectory: e.isDirectory,
 			kind: kindOf(e.name, e.isDirectory),
-		}))
-		.sort(compareEntries);
+		}),
+	);
+	return sortEntries(entries, sort, (e) => readMeta(e.uri));
 }
 
 export type FileMeta = { size: number | null; modifiedAt: number | null };
@@ -75,7 +107,7 @@ export function readMeta(uri: string): FileMeta {
 	} catch {
 		/* no details for this one */
 	}
-	if (metaCache.size > 2000) metaCache.clear();
+	if (metaCache.size > 20000) metaCache.clear(); // room for a whole big folder when sorting
 	metaCache.set(uri, meta);
 	return meta;
 }

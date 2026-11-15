@@ -14,6 +14,12 @@ If you have an issue, just open an [Issue](../../issues)!
 - **Search.** Type in the search box and it looks through the current folder
   and everything below it. Accents and capitals don't matter, and every word
   you type has to be in the name ("trip 2026" finds "2026 summer trip.jpg").
+- **Sorting.** The button at the right end of the path bar sorts the folder by
+  name, date modified or size, either way round (A to Z or Z to A, oldest or
+  newest first, smallest or largest first). Folders always stay on top. It's
+  remembered between visits, and the search keeps its own order. Sorting by
+  date or size reads the details of every file in the folder, so a folder with
+  thousands of files takes a moment.
 - **Copy, move and delete.** Hold a file or folder to start selecting, tap to
   add more, then choose **Copy**, **Move** or **Delete**. For copy and move,
   browse to the folder you want and tap **Paste here**. Nothing is ever

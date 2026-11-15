@@ -3,6 +3,7 @@ import { DEFAULT_SETTINGS, HAPTIC_STRENGTH } from "../constants";
 import { getAllSettings, resetDb, setSetting } from "../storage/db";
 import { Settings, UpdateSetting } from "../types";
 import { clampLimit } from "../utils/limits";
+import { isSortBy } from "../utils/sorting";
 
 export function useSettings() {
 	const [settings, setSettings] = useState<Settings>(DEFAULT_SETTINGS);
@@ -19,6 +20,8 @@ export function useSettings() {
 			const theme = get("theme", DEFAULT_SETTINGS.theme);
 			const language = get("language", DEFAULT_SETTINGS.language);
 			const showHidden = get("showHidden", DEFAULT_SETTINGS.showHidden);
+			const sortBy = get<unknown>("sortBy", DEFAULT_SETTINGS.sortBy);
+			const sortDesc = get<unknown>("sortDesc", DEFAULT_SETTINGS.sortDesc);
 			const hapticsEnabled = get(
 				"hapticsEnabled",
 				DEFAULT_SETTINGS.hapticsEnabled,
@@ -33,6 +36,9 @@ export function useSettings() {
 				theme: { ...DEFAULT_SETTINGS.theme, ...theme },
 				language,
 				showHidden,
+				sortBy: isSortBy(sortBy) ? sortBy : DEFAULT_SETTINGS.sortBy,
+				sortDesc:
+					typeof sortDesc === "boolean" ? sortDesc : DEFAULT_SETTINGS.sortDesc,
 				hapticsEnabled,
 				// A trigger added in a later version starts on, like the others.
 				haptics: {
